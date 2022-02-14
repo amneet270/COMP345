@@ -1,4 +1,3 @@
-//still under work
 #include "Cards.h"
 #include <iostream>
 #include <vector>
@@ -32,6 +31,12 @@ void Cards::Play()
 {
 
 	cout << "Plays card" << endl;
+
+}
+
+TypeOfCard* Cards::getType()
+{
+	return (this->cardtype);
 }
 
 Deck::Deck()
@@ -53,6 +58,8 @@ Cards Deck::Draw(Hand& hand)
 {
 	Cards picked = *this->CardDeck.front();
 	cout << "Draws card from deck" << endl;
+	TypeOfCard* toc = picked.getType();
+	hand.addtoHand(*toc);
 	return picked;
 }
 
@@ -108,6 +115,10 @@ Hand::~Hand()
 
 }
 
+void Hand::addtoHand(TypeOfCard const& toc)
+{
+	cout << "add card to hand" << endl;
+}
 void Hand::removefromHand()
 {
 	cout << "remove card from hand" << endl;
