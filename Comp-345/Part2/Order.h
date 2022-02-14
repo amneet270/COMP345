@@ -1,0 +1,6 @@
+
+
+//Dummy class.
+class Order {
+
+};
