@@ -1,8 +1,7 @@
-//still under work
 #include <iostream>
 #include <vector>
 #include <queue>
-
+//#include orders.h
 
 
 using namespace std;
@@ -25,6 +24,7 @@ public:
 	Cards(const Cards& c);
 	friend ostream& operator <<(ostream& output, const Cards& card);
 	void Play();
+	TypeOfCard* getType();
 		
 private:
 	TypeOfCard* cardtype;
@@ -51,6 +51,7 @@ public:
 	Hand();
 	Hand(const Hand& h);
 	~Hand();
+	void addtoHand(TypeOfCard const& toc);
 	void removefromHand();
 
 
