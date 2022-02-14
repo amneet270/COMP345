@@ -4,6 +4,8 @@
 
 using namespace std;
 #pragma once
+
+// player temp class
 class Player
 {
 private:
@@ -19,6 +21,7 @@ public:
     Player &operator=(const Player& p2);
 };
 
+//territory class
 class Territory
 {
 private:
@@ -48,7 +51,7 @@ public:
     void setNum_of_armies(int);
     void setPlayer(Player*);
 };
-
+// class map
 class Map
 {
 private:

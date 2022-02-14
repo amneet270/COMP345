@@ -6,6 +6,7 @@
 #include "Map.h"
 using namespace std;
 
+// constructors and distructors 
 Player::Player()
 {
 }
@@ -21,11 +22,13 @@ Player::Player(const Player &new_player)
 Player::~Player()
 {
 }
+//getters
 string Player::getName()
 {
     return name;
 }
 
+// consstructors and distructors 
 Territory::Territory()
 {
 }
@@ -42,6 +45,8 @@ Territory::~Territory()
 {
     owner = NULL;
 }
+
+//copy constructors
 Territory::Territory(const Territory &new_territory)
 {
     this->id = new_territory.id;
@@ -51,6 +56,7 @@ Territory::Territory(const Territory &new_territory)
     this->owner = new Player(*(new_territory.owner));
 }
 
+//getters
 int Territory::getId()
 {
     return id;
@@ -76,6 +82,7 @@ Player *Territory::getPlayer()
     return owner;
 }
 
+//setters
 void Territory::setNum_of_armies(int new_num_of_armies)
 {
     this->num_of_armies = new_num_of_armies;
@@ -86,6 +93,7 @@ void Territory::setPlayer(Player *new_player)
     this->owner = new_player;
 }
 
+//constructors and distructors 
 Map::Map()
 {
     Player *player1 = new Player("amnet");
@@ -109,6 +117,7 @@ Map::Map(const Map &new_map)
     }
 }
 
+//reading from the file and storing data 
 void Map ::initiating(string mapName, Player *player1)
 {
     ifstream reader;
@@ -181,6 +190,9 @@ void Map ::initiating(string mapName, Player *player1)
         reader.close();
     }
 }
+
+// validate method that check if it is a connected graph,
+//continents are subgraphs and a territory belong to single continent 
 bool Map ::validate()
 {
 
@@ -210,6 +222,7 @@ bool Map ::validate()
             }
         }
 
+        // using adjency matrix to chech if subgraphs are connected(getting data of continent from subgraphs)
         end = territories[j]->getId();
         vector<vector<int> > continent_border;
         continent_border.resize(((end - start) + 1), vector<int>(((end - start) + 1), 0));
@@ -246,6 +259,7 @@ bool Map ::validate()
         }
     }
 
+    //checks if a contry belongs to single continent 
     for (int i = 0; i < territories.size(); i++)
     {
         for (int j = 0; j < territories.size(); j++)
@@ -261,6 +275,7 @@ bool Map ::validate()
     return true;
 }
 
+//traversing the matrix 
 void Map ::traverse(int u, bool visited[], vector<vector<int> > borderss)
 {
     visited[u] = true;
@@ -293,6 +308,7 @@ bool Map ::isConnected(vector<vector<int> > aborders)
     return true;
 }
 
+// separate the line into words 
 vector<string> Map ::gettingwords(char delimitor, string line)
 {
     vector<string> words;
@@ -323,6 +339,7 @@ vector<Territory *> &Map ::getTerritories()
     return territories;
 }
 
+//strems insersion operators 
 istream &operator>>(istream &in, Player &p)
 {
     return in >> p.name;
@@ -338,13 +355,14 @@ istream &operator>>(istream &in, Map &m)
     return in;
 }
 
+//assignemnt operators
 Player &Player::operator=(const Player &p2)
 {
     this->name = p2.name;
     return *this;
 }
 
-Territory& Territory::operator=(const Territory &p2)
+Territory &Territory::operator=(const Territory &p2)
 {
     if (this == &p2)
     {
@@ -354,11 +372,17 @@ Territory& Territory::operator=(const Territory &p2)
     this->name = p2.name;
     this->continent = p2.continent;
     this->num_of_armies = p2.num_of_armies;
-    this->owner=p2.owner;
+    this->owner = p2.owner;
 
     return *this;
 }
 
-Map& Map::operator=(const Map &p2){
-    
+Map &Map::operator=(const Map &p2)
+{
+    for (int i = 0; i < p2.territories.size(); i++)
+    {
+        this->territories[i] = p2.territories[i];
+    }
+    this->continents = p2.continents;
+    this->borders = p2.borders;
 }
