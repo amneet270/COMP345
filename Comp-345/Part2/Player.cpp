@@ -1,40 +1,76 @@
+#pragma once
 #include "Player.h"
 
+//Default Constructor: Makes a new Hand, Orderlist and empty list of territories
 Player::Player() {
-	hand = Hand();
-	orderList = OrderList();
+	hand = new Hand();
+	orderList = new OrderList();
 	territories = {};
 }
-
-Player::Player(list<Territory> territoriesOwned, Hand playerHand, OrderList orderList) {
+//Constructor: Takes a list of territories, a playerhand and orderlist
+Player::Player(list<Territory>* territoriesOwned, Hand* playerHand, OrderList* orderList) {
 	territories = territoriesOwned;
 	hand = playerHand;
 	this->orderList = orderList;
 }
 
+//Destructor: avoid dangling pointers
+Player::~Player() {
+	hand = NULL;
+	orderList = NULL;
+	territories = NULL;
+}
+
+// assignment operator to make deep copy
+Player& Player::operator = (const Player& player) {
+	this->hand = new Hand(*(player.hand));
+	this->orderList = new OrderList(*(player.orderList));
+	this->territories = new list<Territory>(*(player.territories));
+	return *this;
+}
+
+
+// Copy constructor to make deep copy
+Player::Player(const Player& player) {
+	this->hand = new Hand(*(player.hand));
+	this->orderList = new OrderList(*(player.orderList));
+	this->territories = new list<Territory>(*(player.territories));
+}
+
+
+
+
 //Return a random list of territories to defend.
-list<Territory> Player::toDefend() {
-	list<Territory> territoriesToDefend;
-	for (Territory territory : territories)
+list<Territory>* Player::toDefend() {
+
+	list<Territory>* territoriesToDefend = new list<Territory>;
+
+
+	for (Territory territory : *territories)
 	{
 		int randomNumber = (rand() % 3) + 0;
-		if (randomNumber){
-			territoriesToDefend.push_front(territory);
-		}
-		
-	}
-	return territoriesToDefend;
-};
+		if (randomNumber) {
 
-//Return a random list of territories to attack.
-list<Territory> Player::toAttack() {
+			territoriesToDefend->push_front(territory);
+		}
+
+	}
+
+
+
+
+	return territoriesToDefend;
+}
+
+//Return a pointer to a random list of territories to attack.
+list<Territory>* Player::toAttack() {
+
+	list<Territory>* territoriesToAttack = new list<Territory>;
 
 	int randomNumber;
-	list<Territory> territoriesToAttack;
-	
-	
+
 	randomNumber = (rand() % 42) + 1;
-	for (Territory territory : territories)
+	for (Territory territory : *territories)
 	{
 		if (territory.territoryNumber == randomNumber) {
 			randomNumber = (rand() % 42) + 1;
@@ -44,7 +80,7 @@ list<Territory> Player::toAttack() {
 	Territory territory1 = Territory(randomNumber);
 
 	randomNumber = (rand() % 42) + 1;
-	for (Territory territory : territories)
+	for (Territory territory : *territories)
 	{
 		if (territory.territoryNumber == randomNumber) {
 			randomNumber = (rand() % 42) + 1;
@@ -52,9 +88,9 @@ list<Territory> Player::toAttack() {
 		}
 	}
 	Territory territory2 = Territory(randomNumber);
-	
+
 	randomNumber = (rand() % 42) + 1;
-	for (Territory territory : territories)
+	for (Territory territory : *territories)
 	{
 		if (territory.territoryNumber == randomNumber) {
 			randomNumber = (rand() % 42) + 1;
@@ -63,9 +99,10 @@ list<Territory> Player::toAttack() {
 	}
 	Territory territory3 = Territory(randomNumber);
 
-	territoriesToAttack.push_front(territory1);
-	territoriesToAttack.push_front(territory2);
-	territoriesToAttack.push_front(territory3);
+	(*territoriesToAttack).push_front(territory1);
+	(*territoriesToAttack).push_front(territory2);
+	(*territoriesToAttack).push_front(territory3);
+
 
 	return territoriesToAttack;
 }
@@ -74,20 +111,26 @@ list<Territory> Player::toAttack() {
 void Player::issueOrder()
 {
 	Order newOrder = Order();
-	orderList.orders.push_front(newOrder);
+	(*orderList).orders.push_front(newOrder);
 }
 
-
-list<Territory> Player::getTerritories() {
+//Get player's territories
+list<Territory>* Player::getTerritories() {
 	return territories;
 }
-OrderList Player::getOrderList() {
+
+//Get player's OrderList
+OrderList* Player::getOrderList() {
 	return orderList;
 }
-Hand Player::getHand() {
+
+//Get player's Hand
+Hand* Player::getHand() {
 	return hand;
 }
 
+
+//Custom << operator to print
 ostream& operator<<(ostream& os, list<Territory>& territories)
 {
 	for (Territory territory : territories)
@@ -110,28 +153,28 @@ void print(list<Territory> territories) {
 }
 
 
-
+//Custom << operator to print
 ostream& operator<<(ostream& os, Player& player) {
-	
+
 	os << "Player Hand: (cards)" << endl;
-	os << "Player has " << player.getTerritories().size() << " terrority(ies)" << endl;
-	print(player.getTerritories());
+	os << "Player has " << (*player.getTerritories()).size() << " terrority(ies)" << endl;
+	print((*player.getTerritories()));
 	//os << "Player has " << player.orderList.orders.size() << " orders in the orderList" << "\n";
 	//os << "Territories to defend: " << player.toDefend() << "\n";
 
 	return os;
 
 }
-
+//Printing owned territories, to attack Terr, to defend terr, and orderlist.
 void printPlayer(Player player) {
 	cout << player << endl;
 	cout << "Territories to attack: " << endl;
-	print(player.toAttack());
+	print((*player.toAttack()));
 	cout << "Territories to defend: " << endl;
-	print(player.toDefend());
-	cout << "OrderList has: " << player.getOrderList().orders.size() << " orders" << endl;
+	print((*player.toDefend()));
+	cout << "OrderList has: " << (*player.getOrderList()).orders.size() << " orders" << endl;
 	cout << "IssueOrder() " << endl;
 	player.issueOrder();
-	cout << "OrderList has now: " << player.getOrderList().orders.size() << " orders" << endl;
-
+	cout << "OrderList has now: " << (*player.getOrderList()).orders.size() << " orders" << endl;
 }
+//TEST
