@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <cstdlib>
 #include <string>
 
 using namespace std;
@@ -20,18 +19,19 @@ class GameEngine{
     int numberOfMaps;
     int numberOfPlayers;
     bool partSwitch;
+    
     /*
     * CurrentSteps 0 = Start();
-    *       1 = MapLoaded();
-    *       2 = MapValidated();
-    *       3 = PlayersAdded();
-    *       4 = AssignReinforcement();
-    *       5 = IssueOrders();
-    *       6 = ExecuteOrders();
-    *       7 = Win();
+    *              1 = MapLoaded();
+    *              2 = MapValidated();
+    *              3 = PlayersAdded();
+    *              4 = AssignReinforcement();
+    *              5 = IssueOrders();
+    *              6 = ExecuteOrders();
+    *              7 = Win();
     * 
     * partSwitch = false -> startUp
-    * partSwitch = true -> play
+    *            = true -> play
     */
 
 
@@ -44,8 +44,10 @@ class GameEngine{
     void IssueOrders();
     void ExecuteOrders();
     void Win();
+  
     void StartUp();
     void Play();
+ 
     void GameLoop();
     
 

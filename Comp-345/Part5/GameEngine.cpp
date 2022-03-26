@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <cstdlib>
 #include <string>
 #include <sstream>
 #include "GameEngine.h"
@@ -29,54 +28,49 @@ GameEngine& GameEngine::operator=(const GameEngine& g) {
 
 void GameEngine::Start(){
     currentSteps = 0;
-    cout<< "welcome to play Warzone" << endl;
+    cout<< "    " << endl;
+    cout<< "<<welcome to play Warzone>>" << endl;
+    cout<< "    " << endl;
+    cout<< "warning! any command you enter should be all <lower-case> !!!!"<<endl;
     cout<< "please enter (load) to load map and play the game" << endl;
+    cout<< "there is a default map will be automatic loaded if you start to play" <<endl;
     cin >> this->input;
     if (input == "load"){
         currentSteps = 1;
     }
     else if (input != "load"){
-        cout<< "wrong Command! reset this step" << endl;
+        cout<< "wrong command! reset this step" << endl;
         currentSteps = 0;
     }
     partSwitch = false;
+    cout<< "    " << endl;
 }
 
 void GameEngine::MapLoaded(){
     numberOfMaps = numberOfMaps + 1;
     cout<< "map has been loaded" << endl;
     cout<< "currently you have " << numberOfMaps << " map(s)" <<endl;
-    cout<< "if you want to load other map, Please enter(reload)" << endl;
+    cout<< "if you want to load other map, Please enter(yes)" << endl;
     cout<< "if you want to validated map, Please enter(validated)" << endl;
     cin >> this->input;
-    if (input == "reload"){
-        cout<< "new map is loading... will you load the other map?" << endl;
-        cout<< "enter (yes) for load a new map, enter (no) for validated the map.";
-        numberOfMaps = numberOfMaps + 1;
-        cin >> this->input;
-        if (input == "yes"){
-            currentSteps = 1;
-        }
-        else if (input == "no"){
-            currentSteps = 2;
-        }
+    if (input == "yes"){
+        currentSteps = 1;
     }
     else if (input == "validated"){
-            currentSteps = 2;
-            
-        }
-    else if (input != "validated" && input != "load"){
-            currentSteps = 1;
-            numberOfMaps = 0;
-            cout << "wrong Command! reset this step" << endl;
-        }
-    
+        currentSteps = 2; 
+    }
+    else if (input != "validated" && input != "yes"){
+        currentSteps = 1;
+        numberOfMaps = numberOfMaps - 1;
+        cout << "wrong command! reset this step" << endl;
+    }
+    cout<< "    " << endl;
 }
 
 void GameEngine::MapValidated(){
-    cout<< "map has been validated" << endl;
+    cout<< "there are total "<<numberOfMaps<< " map(s) have been validated" << endl;
     currentSteps = 3;
-    
+    cout<< "    " << endl;
 }
 
 void GameEngine::PlayersAdded(){
@@ -84,31 +78,38 @@ void GameEngine::PlayersAdded(){
     cout<<"enter (yes) to add a player" <<endl;
     cout<<"enter (no) to finish add" <<endl;
     cin >> this->input;
+
     if (input == "yes"){
         numberOfPlayers = numberOfPlayers + 1;
-        cout<<"now a new player has been added, you have "<< numberOfPlayers << " right now" <<endl;
+        cout<<"now a new player has been added, you have "<< numberOfPlayers << " player(s) right now" <<endl;
         currentSteps = 3;
         partSwitch = false;
     }
-    else if (input == "no"){
+    if(input == "no"){
         currentSteps = 4;
         partSwitch = true;
     }
-    else if (input != "yes" && input !="no"){
+    if (numberOfPlayers == 0){
+        cout<<"you can not play the game without players, go back to add one"<<endl;
         currentSteps = 3;
-        numberOfPlayers = 0;
-        cout << "wrong Command! reset this step" << endl;
     }
-    
+    if (input != "yes" && input !="no"){
+        currentSteps = 3;
+        cout << "wrong command! reset this step" << endl;
+    }
+    cout<< "    " << endl;
 }
 void GameEngine::AssignReinforcement(){
-    cout << "Assign reinforcement right now" << endl;
-    cout << "Going to issue orders" << endl;
+    cout << "assign reinforcement right now" <<endl;
+    cout << "assign reinforcement has been finished" << endl;
+    cout << "going to issue orders" << endl;
     currentSteps = 5;
+    cout<< "    " << endl;
 }
 
 void GameEngine::IssueOrders(){
-    cout << "enter (yes) for issue the order" <<endl;
+    cout << "now your order has been issued" <<endl;
+    cout << "enter (yes) for re-issue the order" <<endl;
     cout << "enter (no) for going excuted order" <<endl;
     cin >> this->input;
     if (input == "yes"){
@@ -124,7 +125,7 @@ void GameEngine::IssueOrders(){
         }
         else if (input != "yes" && input !="no"){
             currentSteps = 5;
-            cout << "wrong Command! reset this step" << endl;
+            cout << "wrong command! reset this step" << endl;
         }
     }
     else if (input == "no"){
@@ -134,8 +135,9 @@ void GameEngine::IssueOrders(){
     }
     else if (input != "yes" && input !="no"){
         currentSteps = 5;
-        cout << "wrong Command! reset this step" << endl;
+        cout << "wrong command! reset this step" << endl;
     }
+    cout<< "    " << endl;
 }
 
 void GameEngine::ExecuteOrders(){
@@ -152,12 +154,13 @@ void GameEngine::ExecuteOrders(){
         currentSteps = 6;
     }
     if (input == "assignreinforce"){
-        currentSteps = 5;
+        currentSteps = 4;
     }
     else if (input != "win" && input !="excute" && input !="assignreinforce"){
         currentSteps = 6;
-        cout << "wrong Command! reset this step" << endl;
+        cout << "wrong command! reset this step" << endl;
     }
+    cout<< "    " << endl;
 }
 
 void GameEngine::Win(){
@@ -175,9 +178,10 @@ void GameEngine::Win(){
 
     else {
         cout << "Thank you for playing this game!!!";
-        currentSteps = 8; // shut down the loop
+        currentSteps = 8; 
     }
     partSwitch = false;
+    cout<< "    " << endl;
 }
 
 void GameEngine::StartUp(){
@@ -196,7 +200,7 @@ void GameEngine::StartUp(){
 }
 
 void GameEngine::Play(){
-    while(currentSteps == 4){
+   while(currentSteps == 4){
         AssignReinforcement();
         while(currentSteps == 5){
             IssueOrders();
@@ -215,9 +219,10 @@ void GameEngine::GameLoop(){
     currentSteps = 0;
     while(partSwitch == false && currentSteps == 0){
         StartUp();
+            while(partSwitch == true && currentSteps == 4){
+            Play();
+        }
     }
-    while(partSwitch == true && currentSteps == 4){
-        Play();
-    }
+
 
 }
