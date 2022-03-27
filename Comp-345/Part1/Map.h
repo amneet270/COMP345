@@ -1,25 +1,28 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <map>
+#include "Player.h"
 
 using namespace std;
-#pragma once
 
+
+class Player;
 // player temp class
-class Player
-{
-private:
-    string name;
+// class Player
+// {
+// private:
+//     string name;
 
-public:
-    Player();
-    Player(string);
-    ~Player();
-    Player(const Player&);
-    string getName();
-    friend istream & operator >> (istream &in,  Player &p);
-    Player &operator=(const Player& p2);
-};
+// public:
+//     Player();
+//     Player(string);
+//     ~Player();
+//     Player(const Player&);
+//     string getName();
+//     friend istream & operator >> (istream &in,  Player &p);
+//     Player &operator=(const Player& p2);
+// };
 
 //territory class
 class Territory
@@ -34,7 +37,7 @@ private:
     /* data */
 public:
     Territory();
-    Territory(int, string, string, Player*, int);
+    Territory(int, string, string, int);
     ~Territory();
     Territory(const Territory& );
     friend istream & operator >> (istream &in,  Territory &t);
@@ -62,12 +65,12 @@ private:
 
 public:
     Map();
-    Map(string,Player*);
+    Map(string);
     ~Map();
     Map(const Map&);
     Map& operator=(const Map &p2);
     friend istream & operator >> (istream &in,  Map &m);    
-    void initiating(string,Player*);
+    void initiating(string);
     vector<string> gettingwords(char, string);
     bool validate();
     void traverse(int, bool[], vector<vector<int> > borders);

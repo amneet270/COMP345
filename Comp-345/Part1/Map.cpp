@@ -6,40 +6,19 @@
 #include "Map.h"
 using namespace std;
 
-// constructors and distructors 
-Player::Player()
-{
-}
-Player::Player(string name)
-{
-    this->name = name;
-}
-
-Player::Player(const Player &new_player)
-{
-    this->name = new_player.name;
-}
-Player::~Player()
-{
-}
-//getters
-string Player::getName()
-{
-    return name;
-}
 
 // consstructors and distructors 
 Territory::Territory()
 {
 }
 
-Territory::Territory(int id, string name, string continent, Player *owner, int num_of_armies)
+Territory::Territory(int id, string name, string continent, int num_of_armies)
 {
     this->id = id;
     this->name = name;
     this->continent = continent;
     this->num_of_armies = num_of_armies;
-    this->owner = owner;
+    this->owner = nullptr;
 }
 Territory::~Territory()
 {
@@ -53,7 +32,7 @@ Territory::Territory(const Territory &new_territory)
     this->name = new_territory.name;
     this->continent = new_territory.continent;
     this->num_of_armies = new_territory.num_of_armies;
-    this->owner = new Player(*(new_territory.owner));
+    //this->owner = new Player(*(new_territory.owner));
 }
 
 //getters
@@ -96,14 +75,14 @@ void Territory::setPlayer(Player *new_player)
 //constructors and distructors 
 Map::Map()
 {
-    Player *player1 = new Player("amnet");
-    initiating("solar.map", player1);
-    delete player1;
+    //Player *player1 = new Player("amnet");
+    initiating("solar.map");
+    //delete player1;
 }
 
-Map::Map(string mapName, Player *player1)
+Map::Map(string mapName )
 {
-    initiating(mapName, player1);
+    initiating(mapName);
 }
 
 Map::Map(const Map &new_map)
@@ -118,7 +97,7 @@ Map::Map(const Map &new_map)
 }
 
 //reading from the file and storing data 
-void Map ::initiating(string mapName, Player *player1)
+void Map ::initiating(string mapName)
 {
     ifstream reader;
     reader.open(mapName);
@@ -161,7 +140,7 @@ void Map ::initiating(string mapName, Player *player1)
             }
             else if (bool_country)
             {
-                territories.push_back(new Territory((stoi(words[0]) - 1), words[1], continents[stoi(words[2]) - 1], player1, 0));
+                territories.push_back(new Territory((stoi(words[0]) - 1), words[1], continents[stoi(words[2]) - 1], 0));
                 j++;
             }
             else if (bool_borders)
@@ -342,7 +321,7 @@ vector<Territory *> &Map ::getTerritories()
 //strems insersion operators 
 istream &operator>>(istream &in, Player &p)
 {
-    return in >> p.name;
+    //return in >> p.name;
 }
 
 istream &operator>>(istream &in, Territory &t)
@@ -356,11 +335,7 @@ istream &operator>>(istream &in, Map &m)
 }
 
 //assignemnt operators
-Player &Player::operator=(const Player &p2)
-{
-    this->name = p2.name;
-    return *this;
-}
+
 
 Territory &Territory::operator=(const Territory &p2)
 {
