@@ -6,8 +6,7 @@
 #include "Map.h"
 using namespace std;
 
-
-// consstructors and distructors 
+// consstructors and distructors
 Territory::Territory()
 {
 }
@@ -25,17 +24,17 @@ Territory::~Territory()
     owner = NULL;
 }
 
-//copy constructors
+// copy constructors
 Territory::Territory(const Territory &new_territory)
 {
     this->id = new_territory.id;
     this->name = new_territory.name;
     this->continent = new_territory.continent;
     this->num_of_armies = new_territory.num_of_armies;
-    //this->owner = new Player(*(new_territory.owner));
+    // this->owner = new Player(*(new_territory.owner));
 }
 
-//getters
+// getters
 int Territory::getId()
 {
     return id;
@@ -61,7 +60,7 @@ Player *Territory::getPlayer()
     return owner;
 }
 
-//setters
+// setters
 void Territory::setNum_of_armies(int new_num_of_armies)
 {
     this->num_of_armies = new_num_of_armies;
@@ -71,16 +70,20 @@ void Territory::setPlayer(Player *new_player)
 {
     this->owner = new_player;
 }
-
-//constructors and distructors 
-Map::Map()
+Continents::Continents(string continent_name)
 {
-    //Player *player1 = new Player("amnet");
-    initiating("solar.map");
-    //delete player1;
+    this->continent_name = continent_name;
 }
 
-Map::Map(string mapName )
+// constructors and distructors
+Map::Map()
+{
+    // Player *player1 = new Player("amnet");
+    initiating("solar.map");
+    // delete player1;
+}
+
+Map::Map(string mapName)
 {
     initiating(mapName);
 }
@@ -96,7 +99,7 @@ Map::Map(const Map &new_map)
     }
 }
 
-//reading from the file and storing data 
+// reading from the file and storing data
 void Map ::initiating(string mapName)
 {
     ifstream reader;
@@ -171,7 +174,7 @@ void Map ::initiating(string mapName)
 }
 
 // validate method that check if it is a connected graph,
-//continents are subgraphs and a territory belong to single continent 
+// continents are subgraphs and a territory belong to single continent
 bool Map ::validate()
 {
 
@@ -238,7 +241,7 @@ bool Map ::validate()
         }
     }
 
-    //checks if a contry belongs to single continent 
+    // checks if a contry belongs to single continent
     for (int i = 0; i < territories.size(); i++)
     {
         for (int j = 0; j < territories.size(); j++)
@@ -250,11 +253,40 @@ bool Map ::validate()
             }
         }
     }
-
+    add_countries_to_continent();
     return true;
 }
+void Map ::add_countries_to_continent()
+{
+    string previous = territories[0]->getContinent();
+    int ix = 0;
+    all_contients.push_back(new Continents(previous));
+    all_contients[ix]->belonging_to_contient.push_back(territories[0]->getId());
+    for (int i = 1; i < territories.size(); i++)
+    {
+        if (previous == territories[i]->getContinent())
+        {
+            all_contients[ix]->belonging_to_contient.push_back(territories[i]->getId());
+            continue;
+        }
+        previous = territories[i]->getContinent();
+        all_contients.push_back(new Continents(previous));
+        ix++;
+        all_contients[ix]->belonging_to_contient.push_back(territories[i]->getId());
+    }
 
-//traversing the matrix 
+    for (int i = 0; i < all_contients.size(); i++)
+    {
+        cout << all_contients[i]->continent_name << endl;
+        for (int j = 0; j < all_contients[i]->belonging_to_contient.size(); j++)
+        {
+            cout << all_contients[i]->belonging_to_contient[j] << endl;
+        }
+        cout << endl;
+        cout << endl;
+    }
+}
+// traversing the matrix
 void Map ::traverse(int u, bool visited[], vector<vector<int> > borderss)
 {
     visited[u] = true;
@@ -272,22 +304,22 @@ bool Map ::isConnected(vector<vector<int> > aborders)
 {
     bool *vis = new bool[borders.size()];
     vector<vector<int> > borderss = aborders;
-    //for all vertex u as start point, check whether all nodes are visible or not
+    // for all vertex u as start point, check whether all nodes are visible or not
     for (int u; u < borderss.size(); u++)
     {
         for (int i = 0; i < borderss.size(); i++)
-            vis[i] = false; //initialize as no node is visited
+            vis[i] = false; // initialize as no node is visited
         traverse(u, vis, borderss);
         for (int i = 0; i < borderss.size(); i++)
         {
-            if (!vis[i]) //if there is a node, not visited by traversal, graph is not connected
+            if (!vis[i]) // if there is a node, not visited by traversal, graph is not connected
                 return false;
         }
     }
     return true;
 }
 
-// separate the line into words 
+// separate the line into words
 vector<string> Map ::gettingwords(char delimitor, string line)
 {
     vector<string> words;
@@ -318,10 +350,10 @@ vector<Territory *> &Map ::getTerritories()
     return territories;
 }
 
-//strems insersion operators 
+// strems insersion operators
 istream &operator>>(istream &in, Player &p)
 {
-    //return in >> p.name;
+    // return in >> p.name;
 }
 
 istream &operator>>(istream &in, Territory &t)
@@ -334,14 +366,13 @@ istream &operator>>(istream &in, Map &m)
     return in;
 }
 
-//assignemnt operators
-
+// assignemnt operators
 
 Territory &Territory::operator=(const Territory &p2)
 {
     if (this == &p2)
     {
-        return *this; //self assignment
+        return *this; // self assignment
     }
     this->id = p2.id;
     this->name = p2.name;
@@ -351,6 +382,7 @@ Territory &Territory::operator=(const Territory &p2)
 
     return *this;
 }
+
 
 Map &Map::operator=(const Map &p2)
 {

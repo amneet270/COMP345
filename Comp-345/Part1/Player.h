@@ -6,8 +6,12 @@
 #include <list>
 #include <iostream>
 
+
 using namespace std;
+
 class Territory;
+class Orderslist;
+class Order;
 class Player {
 
 

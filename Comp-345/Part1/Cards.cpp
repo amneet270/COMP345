@@ -46,4 +46,4 @@ void hand::add_card(Card *c)
     in_hand_cards.push_back(c);
 }
 void hand::remove_from_hand(int _index) {}
-Card *hand::getcard(int _index) { return in_hand_cards[_index]; }
+vector<Card*>& hand::getcard() { return in_hand_cards; }

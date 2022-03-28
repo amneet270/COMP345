@@ -71,3 +71,10 @@ void Player::add_to_hand(Card* c)
 {
 	phand->add_card(c);
 }
+
+void Player::issueOrder(Order* order){
+	orderList->addOrder(order);
+}
+Orderslist* Player::getOrderList(){
+	return orderList;
+}

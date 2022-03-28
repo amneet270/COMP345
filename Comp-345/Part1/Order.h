@@ -1,22 +1,24 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "Map.h"
+#include"Player.h"
 using namespace std;
-
+class Player;
 class Order
 {
 private:
     string type;
 
 public:
-    vector<string> type_of_orders = {"deploy", "advance", "bomb", "Blockade", "airlift", "negotiate"};
+    //vector<string> type_of_orders = {"deploy", "advance", "bomb", "blockadeOrder", "airlift", "negotiate"};
     Order();
     Order(string type);
-    ~Order();
+    virtual ~Order();
 
     string gettype();
-    bool validate(); // to validate an order
-    void execute();
+    virtual bool validate() = 0; // to validate an order
+    virtual void execute() = 0;
 };
 
 class DiployeOrder : public Order
@@ -25,7 +27,7 @@ private:
     /* data */
 public:
     DiployeOrder(/* args */);
-    ~DiployeOrder();
+    ~DiployeOrder(){}
     bool validate();
     void execute();
 };
@@ -36,50 +38,50 @@ private:
     /* data */
 public:
     AdvanceOrder(/* args */);
-    ~AdvanceOrder();
+    ~AdvanceOrder(){}
     bool validate();
     void execute();
 };
 
-class BoomOrder : public Order
+class bombOrder : public Order
 {
 private:
     /* data */
 public:
-    BoomOrder(/* args */);
-    ~BoomOrder();
+    bombOrder(/* args */);
+    ~bombOrder(){}
     bool validate();
     void execute();
 };
-class Blockade : public Order
+class blockadeOrder : public Order
 {
 private:
     /* data */
 public:
-    Blockade(/* args */);
-    ~Blockade();
-    bool validate();
-    void execute();
-};
-
-class AirOrder : public Order
-{
-private:
-    /* data */
-public:
-    AirOrder(/* args */);
-    ~AirOrder();
+    blockadeOrder(/* args */);
+    ~blockadeOrder(){}
     bool validate();
     void execute();
 };
 
-class NegoOrder : public Order
+class airliftOrder : public Order
 {
 private:
     /* data */
 public:
-    NegoOrder(/* args */);
-    ~NegoOrder();
+    airliftOrder(/* args */);
+    ~airliftOrder(){}
+    bool validate();
+    void execute();
+};
+
+class negociationOrder : public Order
+{
+private:
+    /* data */
+public:
+    negociationOrder(/* args */);
+    ~negociationOrder(){}
     bool validate();
     void execute();
 };

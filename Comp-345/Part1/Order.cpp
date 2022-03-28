@@ -3,7 +3,7 @@
 #include <vector>
 #include "Order.h"
 using namespace std;
-
+Order::~Order(){}
 Order::Order(string type)
 {
 	this->type = type;
@@ -12,62 +12,85 @@ string Order::gettype()
 {
 	return type;
 }
-DiployeOrder::DiployeOrder() : Order(type_of_orders[0])
+DiployeOrder::DiployeOrder() : Order("diploy")
 {
 }
 bool DiployeOrder::validate()
-{
+{ 
+	// bool x =find(countries.begin(),countries.end(),test) !=countries.end();
+	// cout <<"-------------------";
+	// cout << x<< endl;
+	return true;
+	
 }
-void DiployeOrder::execute()
+void DiployeOrder::execute( )
 {
+	// int army_percontinent=p1->getNumof_army()/p1->countries_owned().size();
+	// int remainder_of_countries=p1->getNumof_army()/p1->countries_owned().size();
+
+	// for(int i = 0;i<p1->countries_owned().size();i++)
+	// {
+	// 	// if(validate(p1,countries)&& i==0){
+	// 	// 	p1->countries_owned()[i]->setNum_of_armies(p1->countries_owned()[i]->getNum_of_armies()+army_percontinent+remainder_of_countries);
+	// 	// }
+	// 	// else if (validate(p1,countries))
+	// 	// {
+	// 	// 	p1->countries_owned()[i]->setNum_of_armies(p1->countries_owned()[i]->getNum_of_armies()+army_percontinent);
+	// 	// }
+
+	// }
+
+	// p1->setNumof_army(0);
+	
+	
 }
 
-AdvanceOrder::AdvanceOrder() : Order(type_of_orders[1])
+AdvanceOrder::AdvanceOrder() : Order("advance")
 {
 }
 bool AdvanceOrder::validate()
-{
+{return true;
 }
 void AdvanceOrder::execute()
 {
 }
 
-BoomOrder::BoomOrder() : Order(type_of_orders[2])
+bombOrder::bombOrder() : Order("bomb")
 {
 }
-bool BoomOrder::validate()
+bool bombOrder::validate()
+{return true;
+}
+void bombOrder::execute()
 {
 }
-void BoomOrder::execute()
+blockadeOrder::blockadeOrder() : Order("blockade")
 {
 }
-Blockade::Blockade() : Order(type_of_orders[3])
-{
+bool blockadeOrder::validate()
+{return true;
 }
-bool Blockade::validate()
-{
-}
-void Blockade::execute()
-{
-}
-
-AirOrder::AirOrder() : Order(type_of_orders[4])
-{
-}
-bool AirOrder:: validate()
-{
-}
-void AirOrder::execute()
+void blockadeOrder::execute()
 {
 }
 
-NegoOrder::NegoOrder() : Order(type_of_orders[5])
+airliftOrder::airliftOrder() : Order("airlift")
 {
 }
-bool NegoOrder::validate()
+bool airliftOrder:: validate()
+{return true;
+}
+void airliftOrder::execute()
 {
 }
-void NegoOrder:: execute(){
+
+negociationOrder::negociationOrder() : Order("negociation")
+{
+}
+bool negociationOrder::validate()
+{return true;
+}
+void negociationOrder:: execute(){
 }
 
 Orderslist::Orderslist(){
@@ -88,10 +111,7 @@ void Orderslist::move(int position_one, int position_two){
 	orderlist[position_two]=temp;
 }
 vector<Order *>& Orderslist::getlist(){
-	for(int i =0;i<orderlist.size();i++)
-	{
-		cout<<orderlist[i]->gettype()<<endl;
-	}
+
 	return orderlist;
 
 }

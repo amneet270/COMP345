@@ -27,7 +27,7 @@ private:
 public:
     Deck(int);
     ~Deck();
-        string c_type_card[5]={ "bomb", "reinforcement", "block", "air", "diplom" };
+        string c_type_card[5]={  "airlift","bomb", "blockade" , "diplomacy", "reinforcement"};
     Card* draw();// draw random card 
     void return_card(Card*);
  };
@@ -42,7 +42,7 @@ public:
     hand();
     void add_card(Card* c);
     void remove_from_hand(int);
-    Card* getcard(int _index);
+    vector<Card*>& getcard();
 
  };
  

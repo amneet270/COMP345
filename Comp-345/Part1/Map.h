@@ -6,25 +6,10 @@
 
 using namespace std;
 
-
 class Player;
-// player temp class
-// class Player
-// {
-// private:
-//     string name;
+//class Continents;
 
-// public:
-//     Player();
-//     Player(string);
-//     ~Player();
-//     Player(const Player&);
-//     string getName();
-//     friend istream & operator >> (istream &in,  Player &p);
-//     Player &operator=(const Player& p2);
-// };
-
-//territory class
+// territory class
 class Territory
 {
 private:
@@ -39,47 +24,57 @@ public:
     Territory();
     Territory(int, string, string, int);
     ~Territory();
-    Territory(const Territory& );
-    friend istream & operator >> (istream &in,  Territory &t);
-    Territory &operator=(const Territory& p2);
+    Territory(const Territory &);
+    friend istream &operator>>(istream &in, Territory &t);
+    Territory &operator=(const Territory &p2);
 
-    //getters
+    // getters
     int getId();
     int getNum_of_armies();
     string getName();
     string getContinent();
-    Player* getPlayer();
+    Player *getPlayer();
 
-    //setters
+    // setters
     void setNum_of_armies(int);
-    void setPlayer(Player*);
+    void setPlayer(Player *);
+};
+
+class Continents
+{
+public:
+Continents(string);
+    vector<int> belonging_to_contient;
+    string continent_name;
+    
 };
 // class map
 class Map
 {
 private:
     map<int, string> continents;
-    vector<Territory* > territories;
+    vector<Territory *> territories;
     vector<vector<int> > borders;
-    map<int, vector<Territory* > > subgraphs;
+    map<int, vector<Territory *> > subgraphs;
+    vector<Continents *> all_contients;
 
 public:
     Map();
     Map(string);
     ~Map();
-    Map(const Map&);
-    Map& operator=(const Map &p2);
-    friend istream & operator >> (istream &in,  Map &m);    
+    Map(const Map &);
+    Map &operator=(const Map &p2);
+    friend istream &operator>>(istream &in, Map &m);
     void initiating(string);
     vector<string> gettingwords(char, string);
     bool validate();
     void traverse(int, bool[], vector<vector<int> > borders);
     bool isConnected(vector<vector<int> > borders);
-    
+    void add_countries_to_continent();
+    vector<int>& borders_contries(int);
 
-    //getters
-    vector<vector<int> >& getBorders();
-    vector<Territory* >& getTerritories();
-
-
+    // getters
+    vector<vector<int> > &getBorders();
+    vector<Territory *> &getTerritories();
+    vector<Continents *> &getContients(){return all_contients;};
 };
