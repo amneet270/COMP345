@@ -16,6 +16,7 @@ int main()
     const int INITIAL_NUM_OF_CARDS = 2;
     const int COUNTRIES_TO_ATTACK = 5;
     const int COUNTRIES_TO_Defend = 5;
+    Deck *simple_deck_of_cards;
     vector<Player *> players;
     int player_id = 0;
 
@@ -103,7 +104,7 @@ int main()
     cout << "---------------------------------------------" << endl;
 
     // creating a deck of cards  AND adding 2 cards to each user
-    Deck *simple_deck_of_cards = new Deck(players.size() * 6);
+    simple_deck_of_cards = new Deck(players.size() * 6);
     for (int i = 0; i < players.size(); i++)
     {
         for (int j = 0; j < INITIAL_NUM_OF_CARDS; j++)
@@ -244,6 +245,16 @@ int main()
             cout << "       order: " << players[i]->getOrderList()->getlist()[j]->gettype() << endl;
         }
     }
+    
+    // example of an execution
+    
+    Order* o =new DiployeOrder();
+    o->execute(players[0], m1->getTerritories(), simple_deck_of_cards);
+
+    for (int i=0; i<13;i++){
+        cout << m1->getTerritories()[i]->getNum_of_armies()<< endl;
+    }
+
 
     
 

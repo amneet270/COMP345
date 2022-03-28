@@ -5,6 +5,7 @@
 #include"Player.h"
 using namespace std;
 class Player;
+class Territory;
 class Order
 {
 private:
@@ -17,8 +18,8 @@ public:
     virtual ~Order();
 
     string gettype();
-    virtual bool validate() = 0; // to validate an order
-    virtual void execute() = 0;
+    virtual bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test) = 0; // to validate an order
+    virtual void execute(Player * p1, vector<Territory*>& countries, Deck* deck) = 0;
 };
 
 class DiployeOrder : public Order
@@ -28,8 +29,8 @@ private:
 public:
     DiployeOrder(/* args */);
     ~DiployeOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 
 class AdvanceOrder : public Order
@@ -39,8 +40,8 @@ private:
 public:
     AdvanceOrder(/* args */);
     ~AdvanceOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 
 class bombOrder : public Order
@@ -50,8 +51,8 @@ private:
 public:
     bombOrder(/* args */);
     ~bombOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 class blockadeOrder : public Order
 {
@@ -60,8 +61,8 @@ private:
 public:
     blockadeOrder(/* args */);
     ~blockadeOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 
 class airliftOrder : public Order
@@ -71,8 +72,8 @@ private:
 public:
     airliftOrder(/* args */);
     ~airliftOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 
 class negociationOrder : public Order
@@ -80,10 +81,10 @@ class negociationOrder : public Order
 private:
     /* data */
 public:
-    negociationOrder(/* args */);
+    negociationOrder();
     ~negociationOrder(){}
-    bool validate();
-    void execute();
+    bool validate(Player * p1, vector<Territory*>& countries, Deck* deck,Territory* test);
+    void execute(Player * p1, vector<Territory*>& countries, Deck* deck);
 };
 
 class Orderslist
