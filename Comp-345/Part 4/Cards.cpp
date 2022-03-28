@@ -20,7 +20,7 @@ Cards::Cards(TypeOfCard TOC)
 {
 	this->cardtype = new TypeOfCard(TOC);
 }
-
+//copy constructor
 Cards::Cards(const Cards& c)
 {
 	this->cardtype = new TypeOfCard(*c.cardtype);
@@ -53,7 +53,7 @@ Deck::~Deck()
 {
 
 }
-
+//draws card from deck and returns the picked card
 Cards Deck::Draw(Hand& hand)
 {
 	Cards picked = *this->CardDeck.front();
@@ -62,14 +62,14 @@ Cards Deck::Draw(Hand& hand)
 	hand.addtoHand(*toc);
 	return picked;
 }
-
+//adds a card to the deck
 void Deck::addtoCardDeck(TypeOfCard const toc)
 {
 	CardDeck.push(new Cards(toc));
 	cout << "Adds card to deck" << endl;
 
 }
-
+//removes a card from the deck
 void Deck::removefromCardDeck()
 {
 	CardDeck.pop();
