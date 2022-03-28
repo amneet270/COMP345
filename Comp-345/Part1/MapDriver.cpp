@@ -12,7 +12,6 @@ using namespace std;
 
 int main()
 {
-    cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << endl;
     const int STARTING_ARMY = 50;
     const int INITIAL_NUM_OF_CARDS = 2;
     const int COUNTRIES_TO_ATTACK = 5;
@@ -21,11 +20,11 @@ int main()
     int player_id = 0;
 
     Map *m1;
+
+    //validation of the MAP
     while (true)
     {
-        // Map *m1=new Map("solar.map",player1);
         m1 = new Map("solar.map");
-        // Map *m1=new Map("invalid_continent_solar.map",player1);
         if ((*m1).validate())
         {
             cout << "The map is valid" << endl;
@@ -37,14 +36,16 @@ int main()
         }
     }
 
+    // adding player to the game
     for (int i = 0; i < 4; i++)
     {
         string name;
         cin >> name;
         players.push_back(new Player(player_id++, name));
     }
+
+    // having a playing order 
     vector<int> playing_order(players.size(), -1);
-    vector<int> checking;
     srand(time(0));
     int random_value = rand() % players.size();
     for (int i = 0; i < players.size(); i++)
@@ -52,6 +53,9 @@ int main()
         playing_order[i] = random_value;
         random_value = ++random_value % players.size();
     }
+
+
+    // assigning territories to the players
     vector<Territory *> all_countries = m1->getTerritories();
     int country_per_player = all_countries.size() / players.size();
     int remaining_counteries = all_countries.size() % players.size();
@@ -76,14 +80,15 @@ int main()
                 cout << "---------------------------------------------" << endl;
             }
         }
+        // assining initial army 
         players[i]->setNumof_army(STARTING_ARMY);
     }
 
+    // check if counteries were properly distributed
     for (int i = 0; i < all_countries.size(); i++)
     {
         cout << "country: " << all_countries[i]->getName() << "------ belong to :" << all_countries[i]->getPlayer()->getId() << endl;
     }
-    cout << "-=-=--=-=-=-=-==-=-" << endl;
 
     for (int i = 0; i < players.size(); i++)
     {
@@ -96,17 +101,17 @@ int main()
         cout << endl;
     }
     cout << "---------------------------------------------" << endl;
+
+    // creating a deck of cards  AND adding 2 cards to each user
     Deck *simple_deck_of_cards = new Deck(players.size() * 6);
     for (int i = 0; i < players.size(); i++)
     {
         for (int j = 0; j < INITIAL_NUM_OF_CARDS; j++)
         {
             players[i]->add_to_hand(simple_deck_of_cards->draw());
-            // cout << players[i]->getHand()->getcard(j)->getCardType() << endl;
-            cout << "-=-=--=-=-=-=-==-=-" << endl;
         }
     }
-    cout << "-=-=--=-=-=-=-==-=-" << endl;
+
     // reinforcement
     bool found;
     for (int i = 0; i < players.size(); i++)
@@ -131,7 +136,7 @@ int main()
                 {
                     break;
                 }
-            }
+            }// providing continent bonus 
             if (found == true)
             {
                 increase_army += m1->getContients()[ii]->belonging_to_contient.size() / 2;
@@ -142,6 +147,7 @@ int main()
             }
         }
 
+        // bonus plus terrtory/3 army
         increase_army += players[i]->countries_owned().size() / 3;
 
         if (increase_army < 3)
@@ -152,7 +158,7 @@ int main()
         {
             players[i]->addarmy(increase_army);
         }
-        cout << "-=-=--=-=-=-=-==-=-" << players[i]->getNumof_army() << endl;
+        cout << "player"<<players[i]->getId()<<" has a starting " << players[i]->getNumof_army()<<" army" << endl;
     }
 
     // issuing order phase
@@ -160,6 +166,7 @@ int main()
     int j = 0;
     int current_country;
     vector<int> countries_to_attack;
+    //adding countries to attack
     for (int i = 0; i < players.size(); i++)
     {
         // listing some counteries to attack
@@ -168,13 +175,11 @@ int main()
             int indexx = rand() % players[i]->countries_owned().size();
             current_country = players[i]->countries_owned()[indexx]->getId();
 
-            cout << "border: ";
             for (int j = 0; j < m1->getTerritories().size(); j++)
             {
                 if (m1->getBorders()[current_country][j] == 1)
                 {
                     countries_to_attack.push_back(j);
-                    cout << j << " ";
                 }
             }
 
@@ -219,6 +224,7 @@ int main()
         }
     }
 
+    //displaying the cards and order up until now 
     for (int i = 0; i < players.size(); i++)
     {
         cout << "player id: " << players[i]->getId() << endl;
